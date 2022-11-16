@@ -46,4 +46,13 @@ public class DataManager : MonoBehaviour
             PosicionarCarros();
         }
     }
+
+    public void EscucharRequestSinArgumentos() {
+
+        print("HUBO UN REQUEST MUY INTERESANTE!");
+    }
+
+    public void EscucharRequestConArgumentos(ListaCarros datos){
+        print("DATOS: " + datos);
+    }
 }
