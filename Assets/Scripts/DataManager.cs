@@ -54,5 +54,10 @@ public class DataManager : MonoBehaviour
 
     public void EscucharRequestConArgumentos(ListaCarros datos){
         print("DATOS: " + datos);
+
+        // actualizar arreglo _carros de esta clase con 
+        // los carros que recibo de "datos"
+
+        // invocar PosicionarCarros()
     }
 }

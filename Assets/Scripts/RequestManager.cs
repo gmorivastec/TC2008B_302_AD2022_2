@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
 
 [System.Serializable]
@@ -14,6 +15,12 @@ public class RequestManager : MonoBehaviour
 
     [SerializeField]
     private RequestConArgumentos _requestConArgumentos;
+
+    [SerializeField]
+    private string _url = "http://127.0.0.1:5000/";
+
+    [SerializeField]
+    private float _esperaEntreRequests = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -29,7 +36,20 @@ public class RequestManager : MonoBehaviour
 
             // hacer request al "server" 
             // esto va a cambiar mañana
-            string jsonSource = PseudoServer.Instance.JSON;
+            // string jsonSource = PseudoServer.Instance.JSON;
+
+            UnityWebRequest www = UnityWebRequest.Get(_url);
+
+            yield return www.SendWebRequest();
+
+            string jsonSource = null;
+
+            //revisar si no hubo broncas
+            if(www.result != UnityWebRequest.Result.Success){
+                print("ERROR EN REQUEST!");
+            } else {
+                jsonSource = www.downloadHandler.text;
+            }
             
             if(jsonSource != null){
 
@@ -48,7 +68,7 @@ public class RequestManager : MonoBehaviour
                 _requestRecibidaSinArgumentos?.Invoke();
                 _requestConArgumentos?.Invoke(listaCarros);
             }
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(_esperaEntreRequests);
         }
     }
 }
