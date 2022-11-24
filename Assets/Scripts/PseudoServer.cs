@@ -60,6 +60,7 @@ public class PseudoServer : MonoBehaviour
 
         while(true){
             ListaCarros listaCarros = new ListaCarros();
+            /*
             listaCarros.carros = new Carro[10];
 
             for(int i = 0; i < listaCarros.carros.Length; i++){
@@ -72,6 +73,7 @@ public class PseudoServer : MonoBehaviour
 
             JSON = JsonUtility.ToJson(listaCarros);
             // print(JSON);
+            */
             yield return new WaitForSeconds(0.5f);
             
         }

@@ -14,6 +14,11 @@ public class DataManager : MonoBehaviour
     {
         _carrosGO = new GameObject[_carros.Length];
 
+        for(int i = 0; i < _carros.Length; i++)
+        {
+            _carrosGO[i] = CarPoolManager.Instance.ActivarObjeto(Vector3.zero);
+        }
+
         PosicionarCarros();
     }
 
@@ -21,13 +26,11 @@ public class DataManager : MonoBehaviour
     {
         for(int i = 0; i < _carros.Length; i++)
         {
-            _carrosGO[i] = CarPoolManager.Instance.ActivarObjeto(
-                new Vector3(
+            _carrosGO[i].transform.position = new Vector3(
                     _carros[i].x,
-                    _carros[i].y,
+                    0,
                     _carros[i].z
-                )
-            );
+                );
         }
     }
 
@@ -39,7 +42,6 @@ public class DataManager : MonoBehaviour
             // simulando un update en datos
             for(int i = 0; i < _carros.Length; i++){
                 _carros[i].x = Random.Range(0f, 10f);
-                _carros[i].y = Random.Range(0f, 10f);
                 _carros[i].z = Random.Range(0f, 10f);
             }
 
@@ -59,5 +61,18 @@ public class DataManager : MonoBehaviour
         // los carros que recibo de "datos"
 
         // invocar PosicionarCarros()
+
+        StartCoroutine(ConsumirSteps(datos));
+    }
+
+
+    private IEnumerator ConsumirSteps(ListaCarros datos) {
+
+        for(int i = 0; i < datos.steps.Length; i++){
+
+            _carros = datos.steps[i].carros;
+            PosicionarCarros();
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 }
