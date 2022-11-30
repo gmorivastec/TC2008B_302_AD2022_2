@@ -7,7 +7,11 @@ public class DataManager : MonoBehaviour
     
     [SerializeField]
     private Carro[] _carros;
+
+    [SerializeField]
+    private float _escalaTiempo = 1;
     private GameObject[] _carrosGO;
+    private Vector3[] _direcciones;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,8 @@ public class DataManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        /*
         if(Input.GetKeyDown(KeyCode.R)){
 
             // simulando un update en datos
@@ -46,6 +52,22 @@ public class DataManager : MonoBehaviour
             }
 
             PosicionarCarros();
+        }*/
+
+        // actualizar posición basado en intervalos regulares
+        // RECUERDA QUE MOVEMOS LOS GAME OBJECTS
+        if(_direcciones != null && _direcciones.Length > 0){
+            for(int i = 0; i < _carrosGO.Length; i++){
+
+                // reorientar
+                _carrosGO[i].transform.forward = _direcciones[i].normalized;
+
+                // aplicar desplazamiento
+                _carrosGO[i].transform.Translate(
+                    _direcciones[i] * Time.deltaTime * _escalaTiempo, 
+                    Space.World
+                );
+            }
         }
     }
 
@@ -71,8 +93,26 @@ public class DataManager : MonoBehaviour
         for(int i = 0; i < datos.steps.Length; i++){
 
             _carros = datos.steps[i].carros;
+            _direcciones = new Vector3[_carros.Length];
+
             PosicionarCarros();
-            yield return new WaitForSeconds(0.5f);
+
+            for(int j = 0; j < _carros.Length; j++){
+
+                // en cada paso calcular vector dirección para cada carro
+                if(i < datos.steps.Length - 1){
+                    _direcciones[j] = new Vector3(
+                        datos.steps[i + 1].carros[j].x - datos.steps[i].carros[j].x,
+                        0,
+                        datos.steps[i + 1].carros[j].z - datos.steps[i].carros[j].z 
+                    );
+                } else {
+                    _direcciones[j] = Vector3.zero;
+                }
+            }
+            
+
+            yield return new WaitForSeconds(1 / _escalaTiempo);
         }
     }
 }

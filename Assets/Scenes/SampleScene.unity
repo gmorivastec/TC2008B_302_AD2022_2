@@ -1264,44 +1264,35 @@ MonoBehaviour:
   _carros:
   - id: 0
     x: -6
-    y: 0.09
     z: 0
   - id: 0
     x: -4.5
-    y: 0
     z: 0
   - id: 0
     x: -3
-    y: 0
     z: 0
   - id: 0
     x: -1.5
-    y: 0
     z: 0
   - id: 0
     x: 0
-    y: 0
     z: 0
   - id: 0
     x: 1.5
-    y: 0
     z: 0
   - id: 0
     x: 3
-    y: 0
     z: 0
   - id: 0
     x: 4.5
-    y: 0
     z: 0
   - id: 0
     x: 6
-    y: 0
     z: 0
   - id: 0
     x: 7.5
-    y: 0
     z: 0
+  _escalaTiempo: 10
 --- !u!4 &1281860260
 Transform:
   m_ObjectHideFlags: 0
